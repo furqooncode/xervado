@@ -1,0 +1,7 @@
+html{
+  scroll-behavior: smooth;
+  background-color: black;
+}
+::placeholder{
+   color: #B0B0B0;
+}
