@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import darkColors from '../darkColors.js';
 import { useAuth } from '../Context/Auth.jsx'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Signup() {
   const { register } = useAuth();
@@ -8,14 +9,19 @@ export default function Signup() {
     const [Email, setEmail] = useState('');
 const [Password, setPassword] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
-  
+  const [loading , setload] = useState(false)
+   const navigate = useNavigate()
+   
   async function handlesubmit(e){
     e.preventDefault();
     try{
+      setload(true)
       await register(Email, userName, Password, phoneNumber)
       alert('congratulations user')
+      navigate("/Login")
     }catch(error){
       alert(error.message )
+      setload(false)
     }
   }
   
@@ -38,6 +44,7 @@ const [Password, setPassword] = useState('');
             onChange={(e)=> {
               setuserName(e.target.value)
             }}
+            required
           />
           <input
             type="email"
@@ -47,6 +54,7 @@ const [Password, setPassword] = useState('');
             onChange={(e)=>{
               setEmail(e.target.value)
             }}
+            required
           />
           <input
             type="tel"
@@ -56,6 +64,7 @@ const [Password, setPassword] = useState('');
             onChange={(e)=>{
               setphoneNumber(e.target.value)
             }}
+            required
           />
           <input
             type="password"
@@ -65,17 +74,20 @@ const [Password, setPassword] = useState('');
             onChange={(e)=>{
               setPassword(e.target.value)
             }}
+            required
           />
 
           <button
-            className="w-full bg-purple-600 text-white p-3 rounded-md hover:bg-purple-700 transition"
+            className="w-full bg-purple-600 text-white p-3 rounded-md
+            hover:bg-purple-700 transition font-bold text-lg"
           >
-            Sign Up
+            {loading ? "Creating User..." : " Signup"}
           </button>
         </form>
 
-        <p className="text-sm text-gray-400 text-center mt-4">
-          Already have an account? <span className="text-purple-400 underline cursor-pointer">Login</span>
+   <p className="text-sm text-gray-400 text-center mt-4">
+   Already have an account? <Link to="/Login" className="text-purple-400
+   underline cursor-pointer">Login</Link>
         </p>
       </div>
     </div>

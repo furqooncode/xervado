@@ -1,19 +1,25 @@
 import { useState } from 'react';
 import darkColors from '../darkColors.js';
 import { useAuth } from '../Context/Auth.jsx'
+import { useNavigate , Link } from 'react-router-dom'
 
 export default function Login() {
   const { login } = useAuth();
   const [Email, setEmail] = useState('');
 const [Password, setPassword] = useState('');
-
+const [loading, setload] = useState(false)
+ const navigate = useNavigate()
+ 
 async function handlesubmit(e){
   e.preventDefault();
   try{
+     setload(true)
     await login(Email, Password);
-    alert('logeedim')
+    alert('logged in successfull')
+    navigate("/Home")
   }catch(error){
     alert(error.message)
+    setload(false)
   }
 }
   return (
@@ -48,14 +54,16 @@ async function handlesubmit(e){
 
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white p-3 rounded-md hover:bg-purple-700 transition"
+            className="w-full bg-purple-600 text-white p-3 rounded-md
+            hover:bg-purple-700 transition font-bold text-lg"
           >
-            Login
+            {loading ? "Logging user..." : "Login"}
           </button>
         </form>
 
         <p className="text-sm text-gray-400 text-center mt-4">
-          Don’t have an account? <span className="text-purple-400 underline cursor-pointer">Signup</span>
+          Don’t have an account? <Link to="/" className="text-purple-400
+          underline cursor-pointer">Signup</Link>
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import user from './assets/user.png'
 import darkColors from './darkColors.js';
 import lightColors from './lightColors.js';
+import db from './lib/util.jsx';
 
 export default function Header() {
   return (
@@ -22,7 +23,7 @@ export default function Header() {
         }} className="font-bold text-2xl">welcome,</h3>
           <span style={{
              color:darkColors.textSecondary,
-          }} className="font-semibold text-lg">Furqoon code</span>
+          }} className="font-semibold text-lg">{db.auth.getUser().data.userName}</span>
         </div>
         
         </div>

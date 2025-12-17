@@ -1,8 +1,11 @@
 import darkColors from '../darkColors.js';
 import lightColors from '../lightColors.js';
 import { useNavigate , Link } from 'react-router-dom';
+import { useState } from 'react'
+import { useNote } from '../Context/NoteContext.jsx'
 
 export default function Text(){
+  const { head, setHead, note, setNote } = useNote()
   return(
     <div className="max-w-md">
       <div className="p-[10px] grid place-center items-center ">
@@ -13,7 +16,13 @@ export default function Text(){
         style={{
           color:darkColors.textPrimary
         }}
+        onChange={(e)=>{
+          setHead(e.target.value)
+        }}
+        value={head}
         />
+        
+        
          <textarea
         rows={5}
         cols={38}
@@ -30,6 +39,10 @@ export default function Text(){
        e.target.style.height = 'auto';
       e.target.style.height = `${e.target.scrollHeight}px`;
   }}
+  onChange={(e)=>{
+    setNote(e.target.value)
+  }}
+  value={note}
 />
    </div>
     </div>

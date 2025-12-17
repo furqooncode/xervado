@@ -9,7 +9,7 @@ export default function Authprovider({children}){
   useEffect(()=> {
     db.auth.initAuth().then(()=>{
       if(db.auth.isAuthenticated()){
-        setuser(db.auth.getuser())
+        setuser(db.auth.getUser())
       }
     });
   },[])
@@ -20,7 +20,7 @@ export default function Authprovider({children}){
       phoneNumber:phoneNumber,
     })
     if(db.auth.isAuthenticated()){
-        setuser(db.auth.getuser());
+        setuser(db.auth.getUser());
     }
   };
   
