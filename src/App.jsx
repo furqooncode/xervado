@@ -2,7 +2,13 @@ import darkColors from './darkColors.js';
 import lightColors from './lightColors.js';
 import Home from './Home.jsx'
 import Notes from './Diary/Notes.jsx'
-import Addnote from './Diary/Addnote.jsx'
+import Addnote from './Diary/Addnote.jsx';
+import Addgallery from './Gallery/Addgallery.jsx';
+import Galleryinput from './Gallery/GalleryInput.jsx';
+import ViewGallery from './Gallery/Viewgallery.jsx';
+import Addfile from './Document/Addfile.jsx';
+import Viewfile from './Document/Viewfile.jsx';
+
 import Signup from './Lock/Signup.jsx'
 import Login from './Lock/Login.jsx'
 import { Routes, Route } from 'react-router-dom'
@@ -12,7 +18,12 @@ export default function App() {
       background:darkColors.background,
     }} className="min-h-screen">
       <Routes>
-  <Route path="/" element={<Signup />} />
+ <Route path="/" element={<Signup />} />
+<Route path="/ViewGallery" element={<ViewGallery />} />
+<Route path="/Viewfile" element={<Viewfile />} />
+  
+  <Route path="/Addgallery" element={<Addgallery />} />
+<Route path="/Addfile" element={<Addfile />} />
   <Route path="/Login" element={<Login />} />
   <Route path="/Home" element={<Home />} />
   <Route path="/Addnote" element={<Addnote />}/>

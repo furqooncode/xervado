@@ -18,6 +18,7 @@ export default function Authprovider({children}){
     await db.auth.register(Email, Password, {
       userName,
       phoneNumber:phoneNumber,
+      role: "user",
     })
     if(db.auth.isAuthenticated()){
         setuser(db.auth.getUser());

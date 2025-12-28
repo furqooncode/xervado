@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import  Authprovider  from './Context/Auth.jsx'
 import { NoteProvider }  from './Context/NoteContext.jsx';
+import { GalleryProvider }  from './Context/GalleryContext.jsx';
+import { DocumentProvider }  from './Context/DocumentContext.jsx';
 
 const queryClient = new QueryClient();
 
@@ -15,7 +17,11 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Authprovider>
       <NoteProvider>
-         <App />
+      <GalleryProvider>
+      <DocumentProvider>
+        <App /> 
+      </DocumentProvider>
+      </GalleryProvider>
       </NoteProvider>
       </Authprovider>
     </BrowserRouter>

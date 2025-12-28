@@ -5,3 +5,7 @@ html{
 ::placeholder{
    color: #B0B0B0;
 }
+.list:hover{
+  background:lightgray;
+   transition:0.3s ease-in-out;
+}

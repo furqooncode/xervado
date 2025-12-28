@@ -1,13 +1,13 @@
 import darkColors from '../darkColors.js';
 import lightColors from '../lightColors.js';
-import Head from './Head.jsx'
-import Text from './Text.jsx';
+import Head from '../Head.jsx'
+import Text from './InputText.jsx';
 import { useNavigate , Link } from 'react-router-dom';
 import db from '../lib/util.jsx';
 import { useNote } from '../Context/NoteContext.jsx';
 
 export default function Notes(){
-  const { handleNoteSaves } = useNote()
+  const { handleNoteSaves, ClearNotes } = useNote()
   const navigate = useNavigate();
   return(
     <>
@@ -25,7 +25,8 @@ export default function Notes(){
 </button>} 
 
       handleback={()=>{
-       navigate("/Addnote")
+       navigate("/Addnote");
+       ClearNotes();
   }} 
 />
     <Text /> 

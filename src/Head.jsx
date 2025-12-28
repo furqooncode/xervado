@@ -1,14 +1,15 @@
-import darkColors from '../darkColors.js';
-import lightColors from '../lightColors.js';
+import darkColors from './darkColors.js';
+import lightColors from './lightColors.js';
 
 export default function Head({topic, copy, save, handleback}){
   return(
-    <div className="pb-[50px]">
+    <div className="pb-[70px]">
        <nav 
        style={{
          background:darkColors.container
        }}
-       className="fixed w-full p-[10px] flex justify-between items-center h-[60px] top-0 left-0 z-index-100">
+       className="fixed w-full p-[10px] flex justify-between items-center
+       h-[60px] top-0 left-0 z-1000">
         
         <div className="w-[50%] h-full flex gap-2 items-center p-[5px]">
           <button
