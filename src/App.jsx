@@ -17,11 +17,11 @@ import Login from './Lock/Login.jsx'
 import UpdateProfile from './Lock/Update.jsx'
 import { Routes, Route } from 'react-router-dom'
 export default function App() {
-  useEffect(() => {
+  {/*useEffect(() => {
     import('vconsole').then(({ default: VConsole }) => {
       new VConsole();
     });
-  }, []);
+  }, []);*/}// VConsole "npm install VConsole"
   return (
     <div style={{
       background:darkColors.background,
