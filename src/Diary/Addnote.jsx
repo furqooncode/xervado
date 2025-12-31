@@ -11,7 +11,7 @@ import db from '../lib/util.jsx';
 export function TextList(){
   const [openMenuId, setOpenMenuId] = useState(null);
   const User_Id = db.auth.getUser().id;
-  const { ListToEdit, handleDelete } = useNote()
+  const { ListToEdit, handleDelete, handleFavorite, fav} = useNote()
    const navigate = useNavigate();
   const {data : fetched, isError, isPending, error} = useQuery({
     queryKey:['Diary', User_Id],
@@ -55,7 +55,7 @@ if(isError){
    ) : 
   (fetched.map(note => (
 
-      <div className="relative p-[3px] mb-[-18px]"
+  <div className="relative p-[3px] mb-[-2px]"
         key={note.id} onClick={()=>{
           ListToEdit({
             id:note.id,
@@ -80,7 +80,7 @@ if(isError){
    <h3 className="text-base font-semibold w-[60%] truncate overflow-hidden
    whitespace-nowrap uppercase">{note.data.Head}</h3>
    
-   <span className="text-xs lowercase text-gray-300">{note.data.Time}</span>
+   <span className="text-xs uppercase text-gray-300">{note.data.Time}</span>
           </div>
  
       <p
@@ -108,25 +108,32 @@ if(isError){
    
       </div>
       
-      //optioms
+      {/*optioms*/}
      {openMenuId === note.id && (
 <div 
     className="absolute w-[170px] bg-[#2A2A2A] top-[20px] right-[50px] z-50 rounded-md shadow-md"
   >
     <ul className="text-white text-sm">
       <li className="list hover:bg-red-600 hover:text-white rounded-t-md">
-        <button 
-          className="w-full flex items-center gap-2 text-left px-4 py-2" 
-          onClick={(e) => {
-            e.stopPropagation();
-            alert('added to fav')
-            setOpenMenuId(null);
-          }}
-        >
-          <i className="far fa-heart"></i>
-          Add to Favourite
-        </button>
+        
+        <button className="w-full flex items-center gap-2 text-left px-4 py-2" onClick={(e) => {
+    e.stopPropagation();
+    handleFavorite(note.id);
+    setOpenMenuId(null);
+  }}>
+        {fav ? (
+          <>
+      <i className="fas fa-heart"></i> Remove from favourite
+          </>
+       ) : (
+        <>
+      <i className="far fa-heart"></i> Add to favourite
+       </>
+  )}
+</button>
+
       </li>
+      
       <li className="list hover:bg-green-600 hover:text-white rounded-b-md">
         <button 
           className="w-full flex items-center gap-2 text-left px-4 py-2" 
@@ -154,7 +161,7 @@ if(isError){
     
     
 
-//This is for adding
+{/*This is for adding*/}
       <div className="bg-purple-800 fixed right-[20px] bottom-[55px] z-index-100 h-[60px] w-[60px] rounded-[50%] flex justify-center items-center">
         <button className="text-white font-bold text-3xl h-full w-full rounded-[50%]"
         onClick={() => {
@@ -164,7 +171,7 @@ if(isError){
           <i className="fas fa-plus"></i>
         </button>
       </div>
-  // all codes ends 
+{/*all codes ends*/}
   
     </div>
     )

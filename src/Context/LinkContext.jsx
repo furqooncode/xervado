@@ -1,0 +1,141 @@
+import { useState, useEffect } from 'react';
+import { useContext, createContext } from 'react';
+import db from '../lib/util.jsx';
+import { formatDate } from '../Formatdate.jsx';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
+const LinkContext = createContext();
+export function LinkProvider({children}){
+  const queryClient = useQueryClient();
+  const[title, setTitle] = useState('')
+  const [type, setType] = useState('')
+  const [url, setUrl] = useState('')
+  const[description, setDescription] = useState('');
+  const [linkId, setLinkId] = useState('')
+const[loading, setLoading] = useState(false);
+const [fav, setFav] = useState(false);
+
+function Clear(){
+  setTitle('')
+  setDescription('')
+  setType('')
+  setUrl('')
+}
+
+  async function handleSave(){
+    alert('hello')
+    if(linkId){
+      setLoading(true)
+      try{
+    const update = await db.updateDocument("Links", linkId,{
+        Title: title,
+        Type: type,
+        Url:url,
+        Description: description,
+      })
+      setLoading(false)
+    queryClient.invalidateQueries(['Link']);
+      alert('updated')
+      
+      }catch(error){
+        setLoading(false)
+        alert(error.message)
+      }
+    }else{
+      try{
+        setLoading(true)
+    const newLink = await db.createDocument("Links", {
+      Title: title,
+       Type: type,
+       Url:url,
+       Description: description,
+       Time: formatDate(new Date()).toUpperCase(),
+        UserID: db.auth.getUser().id,
+          favList: false,
+    })
+    setLinkId(newLink.id)
+    queryClient.invalidateQueries(['Link']);
+    setLoading(false)
+    alert('saved')
+      }catch(error){
+        setLoading(false)
+        alert(error.message)
+      }
+    }
+  }
+  
+  //handle edit
+  function Edit(newData){
+    setTitle(newData.Title)
+    setType(newData.Type)
+    setDescription(newData.Description)
+    setUrl(newData.Url)
+    setLinkId(newData.id)
+  }
+  
+  //handleDelete
+  async function handleDelete(linkId){
+    try{
+     await db.deleteDocument("Links", linkId)
+     alert('deleted')
+  queryClient.invalidateQueries(['Link']);
+    }catch(error){
+      alert(error.message)
+    }
+  }
+  
+  async function handleFavorite(linkId, currentFavStatus) {
+  try{
+    const newFav = !currentFavStatus;
+    
+    await db.updateDocument("Links", linkId, {
+      favList: newFav,
+    });
+    
+    // Refetch the data to update UI
+ queryClient.invalidateQueries(['Link']);
+  } catch(error) {
+    console.error(error.message)
+    alert(error.message);
+  }
+}
+
+
+function handleCopy() {
+  if (url.length === 0) {
+    alert("no text to copy");
+    return;
+  }
+  const text = url;
+  navigator.clipboard.writeText(text)
+    .then(() => alert('Copied!'))
+    .catch(err => alert('Copy failed: ' + err));
+}
+
+  return(
+    <LinkContext.Provider value={{
+    title,
+    setTitle,
+    url,
+    setUrl,
+    type,
+    setType,
+    description,
+    setDescription,
+    handleDelete,
+    handleSave,
+    loading,
+    Clear,
+    handleFavorite,
+    fav,
+    Edit,
+    handleCopy,
+    }}>
+      {children}
+    </LinkContext.Provider>
+    )
+}
+
+export function useLink(){
+  return useContext(LinkContext)
+}

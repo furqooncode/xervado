@@ -10,6 +10,9 @@ export function NoteProvider({children}){
   const [head, setHead] = useState('')
   const [note, setNote] = useState('')
 const [noteId, setNoteId] = useState(null);
+  const [fav, setFav] = useState(false);
+
+  
 
  
  //Creating new notes and updating
@@ -20,7 +23,7 @@ const [noteId, setNoteId] = useState(null);
         Head:head,
         Note:note
       })
-      alert('saved')
+      alert('updated')
       }catch (error){
         alert(error.message)
       }
@@ -29,11 +32,12 @@ const [noteId, setNoteId] = useState(null);
       const newNote = await db.createDocument("Notes", {
         Head: head,
         Note: note,
+        favList: fav,
         Time: formatDate(new Date()).toUpperCase(),
         UserID: db.auth.getUser().id,
-      
       });
       setNoteId(newNote.id);
+      alert('saved')
     }catch(error){
       alert(error.message)
     }
@@ -76,10 +80,47 @@ const [noteId, setNoteId] = useState(null);
     }
   }
 
+//add to favourites
+async function handleFavorite(noteId) {
+  try{
+   const newFav = !fav
+   setFav(newFav)
+  await db.updateDocument("Notes", noteId,{
+        favList: newFav,
+      });
+  }catch(error){
+    alert(error.message)
+    setFav(prevFav => !prevFav);
+  }
+}
+
+
+function handleCopy() {
+  if (!head || !note) {
+    alert("no text to copy");
+    return;
+  }
+  const text = `${head}\n\n${note}`;  // Fixed: Use ${} and added line breaks
+  navigator.clipboard.writeText(text)
+    .then(() => alert('Copied!'))
+    .catch(err => alert('Copy failed: ' + err));
+}
 
   return(
-    <NoteContext.Provider value={{head, setHead, note, setNote , setNoteId,
-    handleNoteSaves, ClearNotes, ListToEdit, handleDelete}}>
+    <NoteContext.Provider value={{
+    head, 
+    setHead, 
+    note, 
+    setNote , 
+    setNoteId,
+    handleNoteSaves,
+    ClearNotes,
+    ListToEdit,
+    handleDelete,
+    handleFavorite, 
+    fav,
+    handleCopy,
+    }}>
       {children}
     </NoteContext.Provider>
     )

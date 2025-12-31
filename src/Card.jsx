@@ -104,6 +104,9 @@ export default function Card() {
       
       <Animate duration={1800} icon={<i className="fas fa-link text-2xl"></i>} Head="Links" sub="Save and manage all your important web links in one place for easy access and sharing." bg="bg-indigo-500"
       isActive={index === 3}
+      handlemove={()=>{
+        navigate("/Addlink")
+      }}
       onShow={(e) =>{
        e.stopPropagation();
         setindex(index === 3 ? null : 3)
@@ -116,6 +119,9 @@ export default function Card() {
        e.stopPropagation();
         setindex(index === 4 ? null : 4)
       }}
+      handlemove={()=>{
+        alert("opps sorry, under maintainace")
+      }}
       />
       
       <Animate duration={2200} icon={<i className="fas fa-heart text-2xl"></i>} Head="Favourite" sub="Easily access and manage all your liked items in one place for quick retrieval and review." bg="bg-red-500"
@@ -124,6 +130,9 @@ export default function Card() {
        e.stopPropagation();
         setindex(index === 5 ? null : 5)
       }}
+      handlemove={()=>{
+        alert("opps sorry, under maintainace")
+      }}
       />
       
       <Animate duration={2400} icon={<i className="fas fa-user text-2xl"></i>} Head="Profile" sub="Manage your personal information, settings, and preferences to customize your experience." bg="bg-teal-600"
@@ -131,6 +140,9 @@ export default function Card() {
       onShow={(e) =>{
        e.stopPropagation();
         setindex(index === 6 ? null : 6)
+      }}
+      handlemove={()=>{
+        alert("opps sorry, under maintainace")
       }}
       />
       

@@ -9,7 +9,7 @@ export default function Galleryinput({onHide}) {
   uploadProgress, sending, name, description, setName, setDescription } = useGallery();
   
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 bg-opacity-50 backdrop-blur-sm">
       <div
         className="w-[88%] h-[78%] rounded-xl p-4 overflow-auto relative"
         style={{ backgroundColor: darkColors.list }}

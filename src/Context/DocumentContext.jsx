@@ -129,7 +129,7 @@ export function DocumentProvider({children}) {
 
       xhr.onerror = () => {
         console.error('XHR Error');
-        reject(error.message);
+        reject("An error occured");
       };
 
       xhr.send(formData);

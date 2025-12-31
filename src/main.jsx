@@ -8,6 +8,7 @@ import  Authprovider  from './Context/Auth.jsx'
 import { NoteProvider }  from './Context/NoteContext.jsx';
 import { GalleryProvider }  from './Context/GalleryContext.jsx';
 import { DocumentProvider }  from './Context/DocumentContext.jsx';
+import { LinkProvider }  from './Context/LinkContext.jsx';
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')).render(
       <NoteProvider>
       <GalleryProvider>
       <DocumentProvider>
-        <App /> 
+      <LinkProvider>
+        <App />
+      </LinkProvider>
       </DocumentProvider>
       </GalleryProvider>
       </NoteProvider>
