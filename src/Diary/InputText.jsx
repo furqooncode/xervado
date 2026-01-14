@@ -2,19 +2,30 @@ import darkColors from '../darkColors.js';
 import lightColors from '../lightColors.js';
 import { useNavigate , Link } from 'react-router-dom';
 import { useState } from 'react'
-import { useNote } from '../Context/NoteContext.jsx'
+import { useNote } from '../Context/NoteContext.jsx';
+import { useEffect, useRef } from "react";
 
 export default function Text(){
-  const { head, setHead, note, setNote } = useNote()
+  const { head, setHead, note, setNote } = useNote();
+  const textareaRef = useRef(null);
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  },[note]);
+
+  
   return(
-    <div className="max-w-md">
-      <div className="p-[10px] grid place-center items-center ">
+    <div className="max-w-md w-full mx-auto">
+      <div className="p-[10px] pt-[60px] grid place-center items-center">
         <input 
         type="text"
         placeholder="Texts/Notes Header"
-        className="h-[65px] p-[10px] border border-purple-600 border-[3px] outline-none w-full text-2xl mb-[10px] rounded-[8px] bg-transparent font-bold"
+        className="fixed top-[60px] left-0 right-0 mx-auto max-w-md h-[65px] p-[10px] border border-purple-600 border-[3px] outline-none w-full text-2xl mb-[10px] rounded-[8px] font-bold z-10"
         style={{
-          color:darkColors.textPrimary
+          color: darkColors.textPrimary,
+          backgroundColor: darkColors.background || '#1a1a1a'
         }}
         onChange={(e)=>{
           setHead(e.target.value)
@@ -23,27 +34,34 @@ export default function Text(){
         />
         
         
-         <textarea
-        rows={5}
-        cols={38}
-        placeholder="Add your decription"
-        style={{
-    resize: 'none',
-    overflow: 'hidden',
-    color:'white',
-    outline:'none',
-    background:'transparent',
-    fontSize:'14px',
-          }}
-        onInput={(e) => {
-       e.target.style.height = 'auto';
-      e.target.style.height = `${e.target.scrollHeight}px`;
-  }}
-  onChange={(e)=>{
+        <textarea
+      ref={textareaRef}
+      rows={5}
+      className="w-full p-[10px]"
+      placeholder="Add your description"
+      style={{
+        resize: 'none',
+        overflow: 'hidden',
+        color: 'white',
+        outline: 'none',
+        background: 'transparent',
+        fontSize: '14px',
+        minHeight: '100px', // Added for better initial visibility
+        maxHeight:'80vh',
+      }}
+      onInput={(e) => {
+        e.target.style.height = 'auto';
+  const newHeight = e.target.scrollHeight;
+const maxHeight = window.innerHeight * 0.8; // 80vh
+  e.target.style.height = `${Math.min(newHeight, maxHeight)}px`;
+  e.target.style.overflowY = newHeight > maxHeight ? 'auto' : 'hidden';
+ 
+      }}
+    onChange={(e) => {
     setNote(e.target.value)
-  }}
-  value={note}
-/>
+    }}
+    value={note}
+    />
    </div>
     </div>
   

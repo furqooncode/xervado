@@ -17,16 +17,17 @@ import Login from './Lock/Login.jsx'
 import UpdateProfile from './Lock/Update.jsx'
 import { Routes, Route } from 'react-router-dom'
 export default function App() {
-  {/*useEffect(() => {
+  useEffect(() => {
     import('vconsole').then(({ default: VConsole }) => {
       new VConsole();
     });
-  }, []);*/}// VConsole "npm install VConsole"
+  }, []); //VConsole "npm install vconsole"
   return (
     <div style={{
       background:darkColors.background,
     }} className="min-h-screen">
       <Routes>
+
  <Route path="/" element={<Signup />} />
  <Route path="Update/" element={<UpdateProfile />} />
  

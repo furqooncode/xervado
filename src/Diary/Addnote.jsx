@@ -11,7 +11,7 @@ import db from '../lib/util.jsx';
 export function TextList(){
   const [openMenuId, setOpenMenuId] = useState(null);
   const User_Id = db.auth.getUser().id;
-  const { ListToEdit, handleDelete, handleFavorite, fav} = useNote()
+  const { ListToEdit, handleDelete, handleFavorite, fav, ClearNotes} = useNote()
    const navigate = useNavigate();
   const {data : fetched, isError, isPending, error} = useQuery({
     queryKey:['Diary', User_Id],
@@ -165,6 +165,7 @@ if(isError){
       <div className="bg-purple-800 fixed right-[20px] bottom-[55px] z-index-100 h-[60px] w-[60px] rounded-[50%] flex justify-center items-center">
         <button className="text-white font-bold text-3xl h-full w-full rounded-[50%]"
         onClick={() => {
+          ClearNotes()
           navigate("/Note")
         }}
         >
