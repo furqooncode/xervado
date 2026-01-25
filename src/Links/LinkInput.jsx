@@ -92,7 +92,7 @@ export default function Linkinput({onHide}){
 
     <button className="w-full py-3 rounded-md font-semibold text-lg
     bg-purple-800 text-white" 
-    onCllick={handleSave}>
+    onClick={handleSave}>
   {loading ? 'Saving...' : 'Save'}
         </button>
       </div>

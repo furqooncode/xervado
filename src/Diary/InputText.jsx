@@ -26,7 +26,7 @@ export default function Text(){
         <input 
           type="text"
           placeholder="Texts/Notes Header"
-          className="fixed top-[60px] left-0 right-0 mx-auto max-w-md h-[65px] p-[10px] border border-purple-600 border-[3px] outline-none w-full text-2xl mb-[10px] rounded-[8px] font-bold z-10"
+          className="fixed top-[60px] left-[3px] right-[3px] mx-auto max-w-md h-[65px] p-[10px] border border-purple-600 border-[3px] outline-none w-full text-2xl mb-[10px] rounded-[8px] font-bold z-10"
           style={{
             color: darkColors.textPrimary,
             backgroundColor: darkColors.background || '#1a1a1a'
@@ -38,7 +38,7 @@ export default function Text(){
         <textarea
           ref={textareaRef}
           rows={1}
-          className="w-full p-[10px]"
+          className="w-full p-[3px]"
           placeholder="Add your description"
           style={{
             resize: 'none',
