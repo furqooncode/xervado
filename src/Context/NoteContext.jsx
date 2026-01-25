@@ -64,13 +64,14 @@ const [noteId, setNoteId] = useState(null);
  //deleting lists from both fav and ui
   async function handleDelete(noteId){
     try{
-      alert("deleting..")
+      showSuccess("deleting..")
   await db.deleteDocument("Notes", noteId);
-    alert("deleted")
+    showSuccess("deleted")
     //refresh page
     queryClient.invalidateQueries(['Diary']);
     }catch(error){
-      alert(error.message)
+      showError('An error occured!')
+      console.log(error.message)
     }
   }
 

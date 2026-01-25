@@ -76,11 +76,13 @@ function Clear(){
   //handleDelete
   async function handleDelete(linkId){
     try{
+      showSuccess("Deleting..")
      await db.deleteDocument("Links", linkId)
      showSuccess('deleted')
   queryClient.invalidateQueries(['Link']);
     }catch(error){
-      showError(error.message)
+      showError("An error occured!")
+      console.log(error.message)
     }
   }
   

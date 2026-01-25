@@ -221,7 +221,7 @@ async function handleDelete(navigate){
       showError("No file ID found!");
       return;
     }
-    
+    showSuccess("Deleting...")
     const User_Id = db.auth.getUser().id;
     // Delete from database  
 await db.functions.execute("handle_delete",{
