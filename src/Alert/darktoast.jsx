@@ -67,7 +67,7 @@ export const showError = (message) => {
       </div>
     ),
     {
-      duration: 4000,
+      duration: 3000,
       icon:null,
       style: {
         background: '#7f1d1d',

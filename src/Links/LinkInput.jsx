@@ -96,7 +96,7 @@ export default function Linkinput({onHide}){
            }}
           onClick={handleSave}
            >
-  {loading ? 'sending...' : 'send'}
+  {loading ? 'Saving...' : 'Save'}
         </button>
       </div>
       </div>
