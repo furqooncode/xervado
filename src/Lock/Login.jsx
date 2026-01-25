@@ -2,6 +2,7 @@ import { useState } from 'react';
 import darkColors from '../darkColors.js';
 import { useAuth } from '../Context/Auth.jsx'
 import { useNavigate , Link } from 'react-router-dom'
+import { showSuccess, showError } from '../Alert/darktoast.jsx'
 
 export default function Login() {
   const { login } = useAuth();
@@ -15,10 +16,10 @@ async function handlesubmit(e){
   try{
      setload(true)
     await login(Email, Password);
-    alert('logged in successfull')
+    showSuccess('logged in successfull')
     navigate("/Home")
   }catch(error){
-    alert(error.message)
+    showError(error.message)
     setload(false)
   }
 }

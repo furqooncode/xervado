@@ -7,7 +7,7 @@ import { useDocument } from '../Context/DocumentContext.jsx';
 export default function Viewfile(){
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
-  const { mediaUrl, name, fileId, handleDelete } = useDocument();
+  const { mediaUrl, name, fileId, handleDelete, DocType } = useDocument();
 
   if (!mediaUrl) {
     return (
@@ -96,11 +96,20 @@ export default function Viewfile(){
         )}
 
         {/* Document Preview with iframe */}
-        <iframe 
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(mediaUrl)}&embedded=true`}
+      {DocType === 'office' ? (
+  <iframe 
+    src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(mediaUrl)}`}
+    className="w-full h-full border-0"
+    title="Office Document"
+  />
+): (
+   <iframe 
+          src={mediaUrl}
           className="w-full h-full border-0"
           title={name || 'Document Preview'}
         />
+)}
+       
       </div>
     </div>
   );

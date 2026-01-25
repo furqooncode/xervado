@@ -2,6 +2,7 @@ import { useState } from 'react'
 import darkColors from '../darkColors.js';
 import { useAuth } from '../Context/Auth.jsx'
 import { useNavigate, Link } from 'react-router-dom'
+import { showSuccess, showError } from '../Alert/darktoast.jsx'
 
 export default function Signup() {
   const { register } = useAuth();
@@ -17,10 +18,10 @@ const [Password, setPassword] = useState('');
     try{
       setload(true)
       await register(Email, userName, Password, phoneNumber)
-      alert('congratulations user')
+      showSuccess('congratulations user created')
       navigate("/Login")
     }catch(error){
-      alert(error.message )
+      showError("An Error occured")
       setload(false)
     }
   }

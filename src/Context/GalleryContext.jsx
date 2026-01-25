@@ -73,7 +73,7 @@ const [currentIndex, setCurrentIndex] = useState(0);
    
    //set the selectfile and the file tyoe
     setSelectedFile(file);
-    setFileType(file.type.startsWith("video/") ? "video" : "image");
+setFileType(file.type.startsWith("video/") ? "video" : "image");
   
  {/* //set the filesize by calling the formatFileSize function and pass the
  file.size as its parameter */}
@@ -134,6 +134,8 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 // this function will be on our button
   async function uploadFile() {
+    const polishedName = name.trim().replaceAll(" ", "_");
+  
     if (!selectedFile) {
       alert("No file selected");
       return;
@@ -148,14 +150,6 @@ const [currentIndex, setCurrentIndex] = useState(0);
       alert('please input a name')
   
       return;
-    }else if(name.includes(" ")){
-    alert('name should not contain a space')
-    
-    return;
-    }else if(name.length > 9){
-      alert('name is too long')
-      
-      return;
     }
     
     if(description.length === 0){
@@ -163,7 +157,6 @@ const [currentIndex, setCurrentIndex] = useState(0);
  confirm(
    "Are you sure you didn't want to put a description to your uploaded file??");
     if(!check) {
-
       return;
     }
  }
@@ -174,7 +167,7 @@ const { url, publicId } = await uploadMedia(selectedFile);
       // save to database
       const User_Id = db.auth.getUser().id;
   const saveLive = await db.createDocument("Gallery", {
-Name: name,
+Name: polishedName,
 Description: description,
 GalleryUrl: url,
 GalleryId : publicId,
@@ -218,6 +211,7 @@ UserID: User_Id,
   setFileType(item.GalleryType);
   setName(item.Name);
   setFileId(item.fileId)
+  
 }
 
 async function handleDelete(navigate){
@@ -228,10 +222,13 @@ async function handleDelete(navigate){
     }
     
     const User_Id = db.auth.getUser().id;
-    
-    // Delete from database
-    await db.deleteDocument("Gallery", fileId);
-    
+    // Delete from database  
+await db.functions.execute("handle_delete",{
+   payload:{
+     id: mediaId,
+      }
+})
+    alert("Cloud fn worked")
     // Remove from current galleryList
     const updatedList = galleryList.filter((_, i) => i !== currentIndex);
     
