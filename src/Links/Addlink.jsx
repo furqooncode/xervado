@@ -164,6 +164,7 @@ export function List(){
       ) : (
         <Linkinput onHide={() => {
           setIsAdd(false)
+           Clear();
         }} />
       )}
 
@@ -172,7 +173,6 @@ export function List(){
         <button className="text-white font-bold text-3xl h-full w-full rounded-[50%]"
         onClick={() => {
           setIsAdd(true)
-          Clear();
         }}
         >
           <i className="fas fa-plus"></i>
