@@ -12,7 +12,7 @@ import { showSuccess, showError } from '../Alert/darktoast.jsx';
 export function List(){
   const navigate = useNavigate();
   const [openMenuId, setOpenMenuId] = useState(null);
-  const { handleDelete, handleFavorite, fav, Edit, handleCopy} = useLink()
+  const { handleDelete, handleFavorite, fav, Edit, handleCopy, Clear} = useLink()
   const User_Id = db.auth.getUser().id;
   const [isAdd, setIsAdd] = useState(false);
   
@@ -172,6 +172,7 @@ export function List(){
         <button className="text-white font-bold text-3xl h-full w-full rounded-[50%]"
         onClick={() => {
           setIsAdd(true)
+          Clear();
         }}
         >
           <i className="fas fa-plus"></i>
