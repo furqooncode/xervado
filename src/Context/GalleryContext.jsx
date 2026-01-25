@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import db from '../lib/util.jsx';
 import { formatDate } from '../Formatdate.jsx';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { showSuccess, showError } from '../Alert/darktoast.jsx'
 
 const GalleryContext = createContext();
 
@@ -60,14 +61,14 @@ const [currentIndex, setCurrentIndex] = useState(0);
       !file.type.startsWith("image/") &&
       !file.type.startsWith("video/")
     ) {
-      alert("Only images and videos are allowed");
+      showError("Only images and videos are allowed");
       return;
     }
 
     // size limit (example: 50MB)
     const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert("File too large (max 50MB)");
+      showError("File too large (max 50MB)");
       return;
     }
    
@@ -137,7 +138,7 @@ setFileType(file.type.startsWith("video/") ? "video" : "image");
     const polishedName = name.trim().replaceAll(" ", "_");
   
     if (!selectedFile) {
-      alert("No file selected");
+      showError("No file selected");
       return;
     }
   
@@ -147,7 +148,7 @@ setFileType(file.type.startsWith("video/") ? "video" : "image");
     {/*  // run the uploadMedia function and set the selectedFile as parameter
     for it to run it */}
     if(name.length == ""){
-      alert('please input a name')
+      showError('please input a name')
   
       return;
     }
@@ -177,12 +178,12 @@ UserID: User_Id,
       });
       setFileId(saveLive.id);
   await queryClient.invalidateQueries({ queryKey: ['Gallery', User_Id] });
-      alert("Upload successful");
+      showSuccess("Upload successful");
       setUploadProgress(0)
      setPreviewUrl(null)
       ClearNotes();
     } catch (err) {
-      alert(err.message);
+      showError(err.message);
       console.error(err);
       setUploadProgress(0)
     }finally{
@@ -217,7 +218,7 @@ UserID: User_Id,
 async function handleDelete(navigate){
   try{
     if(!fileId){
-      alert("No file ID found!");
+      showError("No file ID found!");
       return;
     }
     
@@ -228,13 +229,13 @@ await db.functions.execute("handle_delete",{
      id: mediaId,
       }
 })
-    alert("Cloud fn worked")
+    showSuccess("Cloud fn worked")
     // Remove from current galleryList
     const updatedList = galleryList.filter((_, i) => i !== currentIndex);
     
     // If list is empty after delete, go back to gallery
     if(updatedList.length === 0){
-      alert("All items deleted!");
+      showSuccess("All items deleted!");
       await queryClient.invalidateQueries({ queryKey: ['Gallery', User_Id] });
       navigate('/Addgallery');
       return;
@@ -256,11 +257,11 @@ await db.functions.execute("handle_delete",{
     // Refresh in background
     queryClient.invalidateQueries({ queryKey: ['Gallery', User_Id] });
     
-    alert("Deleted successfully!");
+    showSuccess("Deleted successfully!");
     
   }catch(error){
     console.error('Delete error:', error);
-    alert(error.message)
+    showError(error.message)
   }
 }
 

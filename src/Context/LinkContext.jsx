@@ -3,6 +3,7 @@ import { useContext, createContext } from 'react';
 import db from '../lib/util.jsx';
 import { formatDate } from '../Formatdate.jsx';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { showSuccess, showError } from '../Alert/darktoast.jsx'
 
 const LinkContext = createContext();
 export function LinkProvider({children}){
@@ -23,7 +24,6 @@ function Clear(){
 }
 
   async function handleSave(){
-    alert('hello')
     if(linkId){
       setLoading(true)
       try{
@@ -35,11 +35,11 @@ function Clear(){
       })
       setLoading(false)
     queryClient.invalidateQueries(['Link']);
-      alert('updated')
+      showSuccess('updated')
       
       }catch(error){
         setLoading(false)
-        alert(error.message)
+        showError(error.message)
       }
     }else{
       try{
@@ -56,10 +56,10 @@ function Clear(){
     setLinkId(newLink.id)
     queryClient.invalidateQueries(['Link']);
     setLoading(false)
-    alert('saved')
+    showSuccess('Link saved successfully')
       }catch(error){
         setLoading(false)
-        alert(error.message)
+        showError(error.message)
       }
     }
   }
@@ -77,39 +77,42 @@ function Clear(){
   async function handleDelete(linkId){
     try{
      await db.deleteDocument("Links", linkId)
-     alert('deleted')
+     showSuccess('deleted')
   queryClient.invalidateQueries(['Link']);
     }catch(error){
-      alert(error.message)
+      showError(error.message)
     }
   }
   
-  async function handleFavorite(linkId, currentFavStatus) {
+
+async function handleFavorite(linkId, currentFavStatus) {
   try{
     const newFav = !currentFavStatus;
     
-    await db.updateDocument("Links", linkId, {
+ await db.updateDocument("Links", linkId,{
       favList: newFav,
     });
-    
+    showSuccess('Added to favourite')
     // Refetch the data to update UI
  queryClient.invalidateQueries(['Link']);
   } catch(error) {
     console.error(error.message)
-    alert(error.message);
+    showError(error.message);
   }
-}
-
+} 
 
 function handleCopy() {
   if (url.length === 0) {
-    alert("no text to copy");
+    showError("no text to copy");
     return;
   }
   const text = url;
   navigator.clipboard.writeText(text)
-    .then(() => alert('Copied!'))
-    .catch(err => alert('Copy failed: ' + err));
+  .then(() => showSuccess('Copied!'))
+  .catch(err => {
+    showError('Copy failed');
+    console.log(err)
+  });
 }
 
   return(

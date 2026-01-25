@@ -2,6 +2,8 @@ import darkColors from './darkColors.js';
 import lightColors from './lightColors.js';
 import { useNavigate , Link } from 'react-router-dom';
 import { useState } from 'react';
+import { showSuccess, showError } from '../Alert/darktoast.jsx';
+
 export function Animate({ duration = 600, Head, sub, icon, bg, handlemove,
 isActive, onShow}) {
   return (
@@ -120,7 +122,7 @@ export default function Card() {
         setindex(index === 4 ? null : 4)
       }}
       handlemove={()=>{
-        alert("opps sorry, under maintainace")
+        showError("opps sorry, under maintainace")
       }}
       />
       
@@ -131,7 +133,7 @@ export default function Card() {
         setindex(index === 5 ? null : 5)
       }}
       handlemove={()=>{
-        alert("opps sorry, under maintainace")
+        showError("opps sorry, under maintainace")
       }}
       />
       
@@ -142,7 +144,7 @@ export default function Card() {
         setindex(index === 6 ? null : 6)
       }}
       handlemove={()=>{
-        alert("opps sorry, under maintainace")
+        showError("opps sorry, under maintainace")
       }}
       />
       

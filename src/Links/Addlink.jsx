@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Linkinput from './LinkInput.jsx';
 import { useLink } from '../Context/LinkContext.jsx';
 import db from '../lib/util.jsx';
-
+import { showSuccess, showError } from '../Alert/darktoast.jsx';
  
 export function List(){
   const navigate = useNavigate();
@@ -103,8 +103,11 @@ export function List(){
       onClick={(e)=>{
       e.stopPropagation();
     navigator.clipboard.writeText(link.data.Url)
-      .then(() => alert('✓ Copied!'))
-      .catch(err => alert('Copy failed: ' + err));
+      .then(() => showSuccess('✓ Copied!'))
+      .catch(err =>{
+        showError('Copy failed');
+        console.log(err.message)
+      });
       }}>
                   <i className="fas fa-copy text-white"></i>
                 </button>

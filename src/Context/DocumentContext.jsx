@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import db from '../lib/util.jsx';
 import { formatDate } from '../Formatdate.jsx';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { showSuccess, showError } from '../Alert/darktoast.jsx';
 
 const DocumentContext = createContext();
 
@@ -59,7 +60,7 @@ export function DocumentProvider({children}) {
     // Check file size FIRST - immediate alert and return
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert("files greater than 10mb");
+      showError("files greater than 10mb");
       return;
     }
 
@@ -77,13 +78,13 @@ export function DocumentProvider({children}) {
     const allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
 
     if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
-      alert("Only documents are allowed");
+      showError("Only documents are allowed");
       return;
     }
 
     // Check both MIME type and extension (Google Files fix)
     if (!allowedDocs.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
-      alert("Only allowed document types are accepted");
+      showError("Only allowed document types are accepted");
       return;
     }
      
@@ -206,7 +207,7 @@ export function DocumentProvider({children}) {
     console.log('uploadFile called, selectedFile:', selectedFile);
     
     if (!selectedFile) {
-      alert("No file selected");
+      showError("No file selected");
       return;
     }
   
@@ -215,7 +216,7 @@ export function DocumentProvider({children}) {
       setSending(true);
       
       if(name.trim().length === 0){
-        alert('please input a name');
+        showError('please input a name');
         setSending(false);
         return;
       }
@@ -253,14 +254,14 @@ export function DocumentProvider({children}) {
       setFileId(saveLive.id);
       await queryClient.invalidateQueries({ queryKey: ['Document', User_Id] });
       
-      alert("Upload successful");
+      showSuccess("Upload successful");
       setUploadProgress(0);
       setPreviewUrl(null);
       setSelectedFile(null);
       ClearNotes();
     } catch (err) {
       console.error('Upload error:', err);
-      alert(err.message || err);
+      showError(err.message || err);
       setUploadProgress(0);
     } finally {
       setSending(false);
@@ -286,7 +287,7 @@ export function DocumentProvider({children}) {
   async function handleDelete(navigate){
     try{
       if(!fileId){
-        alert("No file ID found!");
+        showError("No file ID found!");
         return;
       }
       
@@ -296,12 +297,12 @@ export function DocumentProvider({children}) {
       await db.deleteDocument("Document", fileId);
       await queryClient.invalidateQueries({ queryKey: ['Document', User_Id] });
       
-      alert("Deleted successfully!");
+      showSuccess("Deleted successfully!");
       navigate('/Addfile');
       
     } catch(error){
       console.error('Delete error:', error);
-      alert(error.message);
+      showError(error.message);
     }
   }
 

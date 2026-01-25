@@ -3,6 +3,7 @@ import db from '../lib/util.jsx';
 const NoteContext = createContext();
 import { formatDate } from '../Formatdate.jsx';
 import { useQueryClient } from '@tanstack/react-query';
+import { showSuccess, showError } from '../Alert/darktoast.jsx'
 
 
 export function NoteProvider({children}){
@@ -23,9 +24,9 @@ const [noteId, setNoteId] = useState(null);
         Head:head,
         Note:note
       })
-      alert('updated')
+      showSuccess('updated')
       }catch (error){
-        alert(error.message)
+        showError(error.message)
       }
     }else{
       try{
@@ -37,9 +38,9 @@ const [noteId, setNoteId] = useState(null);
         UserID: db.auth.getUser().id,
       });
       setNoteId(newNote.id);
-      alert('saved')
+      showSuccess('saved')
     }catch(error){
-      alert(error.message)
+      showError(error.message)
     }
       }
   }
@@ -58,14 +59,7 @@ const [noteId, setNoteId] = useState(null);
    setNote(noteData.Note)
  }
  
- //adding to favourites
- async function handleFav(addToFav){
-   try{
-     await db.createDocument("Favourites")
-   }catch(error){
-     alert(error.message)
-   }
- }
+ 
  
  //deleting lists from both fav and ui
   async function handleDelete(noteId){
@@ -88,8 +82,10 @@ async function handleFavorite(noteId) {
   await db.updateDocument("Notes", noteId,{
         favList: newFav,
       });
+      showSuccess("Added to favourite")
   }catch(error){
-    alert(error.message)
+    showError("An error occred");
+    console.log(error.message)
     setFav(prevFav => !prevFav);
   }
 }
@@ -102,8 +98,11 @@ function handleCopy() {
   }
   const text = `${head}\n\n${note}`;  // Fixed: Use ${} and added line breaks
   navigator.clipboard.writeText(text)
-    .then(() => alert('Copied!'))
-    .catch(err => alert('Copy failed: ' + err));
+    .then(() => showSuccess('Copied!'))
+    .catch(err => {
+     showError("copy failed");
+     console.log(err.message)
+    });
 }
 
   return(
