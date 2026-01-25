@@ -20,6 +20,7 @@ function Clear(){
   setTitle('')
   setDescription('')
   setType('')
+  setLinkId('')
   setUrl('')
 }
 
@@ -39,7 +40,7 @@ function Clear(){
       
       }catch(error){
         setLoading(false)
-        showError(error.message)
+        showError("An error occured!")
       }
     }else{
       try{
